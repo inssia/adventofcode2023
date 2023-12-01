@@ -46,5 +46,5 @@ def part2():
 
     print(running_sum)
 
-
+part1()
 part2()
