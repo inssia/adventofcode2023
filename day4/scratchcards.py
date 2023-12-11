@@ -48,4 +48,53 @@ def match_nums(winning_nums, has_nums):
     return 2 ** (counter-1)
 
 
+def part2():
+
+    file = open("input.txt", "r")
+
+    mapping = {}
+
+    for line in file:
+        line = re.sub('[^0-9 |]', '', line).strip()
+
+        wins_and_count, has_nums = line.split('|')
+        wins_and_count = wins_and_count.strip().split()
+        has_nums = has_nums.strip().split()
+
+        count = int(wins_and_count[0])
+        wins = set(wins_and_count[1:])
+
+        mapping[count] = [wins, has_nums, 1]
+
+    running_sum = 0
+
+    for count in mapping:
+        running_sum += duplicate_and_count(mapping, count)
+
+    print(running_sum)
+
+def duplicate_and_count(mapping, count):
+
+    winning_nums, has_nums, current_number = mapping[count]
+
+    wins = 0
+
+    for num in has_nums:
+        if num in winning_nums:
+            wins += 1
+
+    card_deck = count
+    while wins >= 0 and card_deck <= len(mapping):
+        mapping[card_deck][2] += current_number
+        wins -= 1 
+        card_deck += 1
+
+
+    return current_number
+
+
+
+    
+
 part1()
+part2()
